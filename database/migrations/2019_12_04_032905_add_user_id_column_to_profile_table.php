@@ -14,7 +14,7 @@ class AddUserIdColumnToProfileTable extends Migration
     public function up()
     {
         Schema::table('profiles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('image');
+            $table->unsignedBigInteger('user_id')->after('image')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
