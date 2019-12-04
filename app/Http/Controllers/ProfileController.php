@@ -2,83 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Impl\ProfileServiceImpl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $serviceProfile;
+
+    public function __construct(ProfileServiceImpl $profileServiceImpl)
+    {
+        $this->serviceProfile = $profileServiceImpl;
+    }
+
     public function index()
     {
-        //
+        $profiles = $this->serviceProfile->getAll();
+        return view('profiles.list',compact('profiles'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('profiles.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $this->serviceProfile->create($request);
+        Session::flash('success','Tao thanh cong');
+        return redirect()->route('profiles.list');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $profile = $this->serviceProfile->findById($id);
+        return view('profiles.edit',compact('profile'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $this->serviceProfile->update($request,$id);
+        Session::flash('success','Sua thanh cong');
+
+        return redirect()->route('profiles.list');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        $this->serviceProfile->destroy($id);
+        Session::flash('success','Xoa thanh cong');
+        return redirect()->route('profiles.list');
     }
 }

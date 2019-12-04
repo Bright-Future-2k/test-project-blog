@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Impl\ProfileRepositoryImpl;
+use App\Repositories\ProfileRepositoryInterface;
+use App\Services\Impl\ProfileServiceImpl;
+use App\Services\ProfileServicesInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            ProfileRepositoryInterface::class,
+            ProfileRepositoryImpl::class
+        );
+        $this->app->singleton(
+            ProfileServicesInterface::class,
+            ProfileServiceImpl::class
+        );
     }
 
     /**
