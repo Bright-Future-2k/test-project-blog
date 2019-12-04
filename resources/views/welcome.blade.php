@@ -86,7 +86,7 @@
 
                 <div class="links">
                     <a href="{{ route('profiles.list') }}">Profile</a>
-
+                    <a href="{{ route('posts.list') }}">Post</a>
                 </div>
             </div>
         </div>
